@@ -22,19 +22,37 @@ The project follows this workflow:
 8. Exploratory clustering with K-Means
 9. Discussion of limitations and possible next steps
 
+## Dataset
+
+The dataset used in this project is publicly available on Kaggle:
+
+**Patients Data for Medical Field — Tarek Muhammed**
+
+[Kaggle dataset](https://www.kaggle.com/datasets/tarekmuhammed/patients-data-for-medical-field?utm_source=chatgpt.com)
+
+The dataset is **not included in this repository**.
+
+To reproduce the analysis, download the dataset from Kaggle and place the Excel file locally at:
+
+```text
+datos/Patients Data.xlsx
+```
+
+The filename expected by the notebook is `Patients Data.xlsx`.
+
 ## Main results
 
 In the current experiment, several models perform similarly. Logistic Regression and Random Forest are closely matched in ROC AUC, with XGBoost also very close.
 
 On the held-out test set:
 
-| Model | ROC AUC | F1 | Recall | Balanced Accuracy |
-|---|---:|---:|---:|---:|
-| Logistic Regression | 0.883 | 0.793 | 0.768 | 0.800 |
-| XGBoost | 0.881 | 0.794 | 0.790 | 0.795 |
-| Random Forest (tuned) | 0.881 | 0.795 | 0.791 | 0.796 |
-| Random Forest | 0.881 | 0.796 | 0.789 | 0.797 |
-| Decision Tree | 0.842 | 0.772 | 0.760 | 0.776 |
+| Model                 | ROC AUC |    F1 | Recall | Balanced Accuracy |
+| --------------------- | ------: | ----: | -----: | ----------------: |
+| Logistic Regression   |   0.883 | 0.793 |  0.768 |             0.800 |
+| XGBoost               |   0.881 | 0.794 |  0.790 |             0.795 |
+| Random Forest (tuned) |   0.881 | 0.795 |  0.791 |             0.796 |
+| Random Forest         |   0.881 | 0.796 |  0.789 |             0.797 |
+| Decision Tree         |   0.842 | 0.772 |  0.760 |             0.776 |
 
 These metrics were obtained after balancing the dataset through random undersampling. Because the test set in this experiment is also based on the balanced sample, the results should be interpreted as **model comparisons within this experiment**, not as estimates of performance at the original 5.6% prevalence.
 
@@ -58,14 +76,14 @@ The clustering section is deliberately presented as exploratory rather than as a
 
 This is an academic project and has several important methodological limitations:
 
-- The target represents a **previous heart attack**, not a future event.
-- The dataset is observational and based on self-reported health information.
-- Some highly influential variables may reflect information obtained after the event.
-- Random undersampling discards a large number of negative examples.
-- The balanced test set does not reproduce the original population prevalence.
-- Feature-selection decisions in the original academic workflow were simplified rather than embedded in a fully nested validation procedure.
-- The encoding of some ordinal/categorical variables is simplified.
-- Probabilities were not calibrated and the classification threshold was kept at 0.5.
+* The target represents a **previous heart attack**, not a future event.
+* The dataset is observational and based on self-reported health information.
+* Some highly influential variables may reflect information obtained after the event.
+* Random undersampling discards a large number of negative examples.
+* The balanced test set does not reproduce the original population prevalence.
+* Feature-selection decisions in the original academic workflow were simplified rather than embedded in a fully nested validation procedure.
+* The encoding of some ordinal/categorical variables is simplified.
+* Probabilities were not calibrated and the classification threshold was kept at 0.5.
 
 These limitations are intentionally kept visible because they are part of the learning process of the project.
 
@@ -73,11 +91,11 @@ These limitations are intentionally kept visible because they are part of the le
 
 A stronger version of the analysis could:
 
-- keep the test set at the original prevalence and apply resampling only to the training data;
-- compare undersampling with approaches such as `class_weight`;
-- optimise the decision threshold according to the cost of false positives and false negatives;
-- repeat the modelling after removing variables that may contain post-event information;
-- investigate calibration and probability quality.
+* keep the test set at the original prevalence and apply resampling only to the training data;
+* compare undersampling with approaches such as `class_weight`;
+* optimise the decision threshold according to the cost of false positives and false negatives;
+* repeat the modelling after removing variables that may contain post-event information;
+* investigate calibration and probability quality.
 
 ## Repository structure
 
@@ -85,11 +103,12 @@ A stronger version of the analysis could:
 heart-attack-history-classification/
 ├── notebooks/
 │   └── heart_attack_history_classification.ipynb
-├── datos/
-│   └── Patients Data.xlsx
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── .gitignore
 ```
+
+The dataset itself is not stored in this repository because it is hosted externally on Kaggle.
 
 ## How to run
 
@@ -97,6 +116,12 @@ Create a virtual environment and install the dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Download the dataset from Kaggle and place the Excel file locally at:
+
+```text
+datos/Patients Data.xlsx
 ```
 
 Then open the notebook:
@@ -115,13 +140,13 @@ If the dataset is stored elsewhere, update `DATA_PATH` in the first code section
 
 ## Technologies
 
-- Python
-- NumPy
-- Pandas
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- XGBoost
-- imbalanced-learn
-- SHAP
-- LIME
+* Python
+* NumPy
+* Pandas
+* Matplotlib
+* Seaborn
+* Scikit-learn
+* XGBoost
+* imbalanced-learn
+* SHAP
+* LIME
